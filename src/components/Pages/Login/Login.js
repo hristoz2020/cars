@@ -1,29 +1,37 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+import Loading from "../../Loading/Loading";
 import * as userAuth from "../../../services/userAuth";
 
-const Login = () => {
+const Login = ({ token, setToken }) => {
 	const navigate = useNavigate();
-	const [usernameInput, setUsernameInput] = useState("");
-	const [passwordInput, setPasswordInput] = useState("");
+	const [usernameInput, setUsernameInput] = useState("hristoz123");
+	const [passwordInput, setPasswordInput] = useState("123456");
+
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
 
 	const loginHandler = (e) => {
 		e.preventDefault();
-        setUsernameInput("");
+		setUsernameInput("");
 		setPasswordInput("");
 
-		userAuth.loginUser(usernameInput, passwordInput)
-            .then(res => {
-                localStorage.setItem("token", res.jwtToken);
-                navigate('/');
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+		userAuth
+			.loginUser(usernameInput, passwordInput)
+			.then((res) => {
+				setToken(res.jwtToken);
+				localStorage.setItem("token", res.jwtToken);
+				navigate("/");
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 
-    return (
+	return loading ? (
+		<Loading />
+	) : (
 		<form className="login-form" method="POST">
 			<div className="mb-3">
 				<label htmlFor="exampleInput" className="form-label">
@@ -54,7 +62,14 @@ const Login = () => {
 				/>
 			</div>
 
-			<button type="submit" className="btn btn-primary" onClick={(e) => {loginHandler(e)}}>
+			<button
+				type="submit"
+				className="btn btn-primary"
+				onClick={(e) => {
+					setLoading(true)
+					loginHandler(e);
+				}}
+			>
 				Submit
 			</button>
 		</form>

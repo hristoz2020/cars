@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import Loading from "../../Loading/Loading";
 import * as userAuth from "../../../services/userAuth";
 
 const Regiseter = () => {
