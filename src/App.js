@@ -1,7 +1,6 @@
 import Login from "./components/Pages/Login/Login";
 import Regiseter from "./components/Pages/Register/Register";
 
-
 function App() {
 	return (
 		<div className="cars">
