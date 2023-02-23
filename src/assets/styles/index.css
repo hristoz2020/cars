@@ -36,3 +36,12 @@
     margin: 50px auto;
     border: 2px solid black;
 }
+
+.home-page-welcome {
+    position: absolute;
+    top: 100px;
+    left: 33%;}
+
+.home-page-img {
+    width: 100%;
+}
