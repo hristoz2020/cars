@@ -2,13 +2,15 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Navigation from "./components/Navigation/Navigation";
-import Home from "./components/Pages/Home/Home";
-import Cars from "./components/Pages/Cars/Cars";
-import Login from "./components/Pages/Login/Login";
-import Register from "./components/Pages/Register/Register";
+import Home from "./pages/Home/Home";
+import Cars from "./pages/Cars/Cars";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
+
 
 function App() {
     const [token,setToken] = useState(localStorage.getItem('token') ?? null);
+
 
 	return (
 		<div className="cars">

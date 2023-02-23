@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-import Loading from "../../Loading/Loading";
-import * as userAuth from "../../../services/userAuth";
+import LoadingButton from "../../components/LoadingButton/LoadingButton";
+import * as userAuth from "../../services/userAuth";
 
 const Login = ({ token, setToken }) => {
 	const navigate = useNavigate();
@@ -10,7 +10,7 @@ const Login = ({ token, setToken }) => {
 	const [passwordInput, setPasswordInput] = useState("123456");
 
 	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState('');
+	const [error, setError] = useState("");
 
 	const loginHandler = (e) => {
 		e.preventDefault();
@@ -25,13 +25,13 @@ const Login = ({ token, setToken }) => {
 				navigate("/");
 			})
 			.catch((err) => {
-				console.log(err);
+				setError(err);
+				setLoading(false);
+				//console.log(err);
 			});
 	};
 
-	return loading ? (
-		<Loading />
-	) : (
+	return (
 		<form className="login-form" method="POST">
 			<div className="mb-3">
 				<label htmlFor="exampleInput" className="form-label">
@@ -61,17 +61,21 @@ const Login = ({ token, setToken }) => {
 					}}
 				/>
 			</div>
-
-			<button
-				type="submit"
-				className="btn btn-primary"
-				onClick={(e) => {
-					setLoading(true)
-					loginHandler(e);
-				}}
-			>
-				Submit
-			</button>
+			{error ? <p className="invalid-input">Invalid Username or Password!</p> : ""}
+			{loading ? (
+				<LoadingButton />
+			) : (
+				<button
+					type="submit"
+					className="btn btn-primary"
+					onClick={(e) => {
+						setLoading(true);
+						loginHandler(e);
+					}}
+				>
+					Submit
+				</button>
+			)}
 		</form>
 	);
 };

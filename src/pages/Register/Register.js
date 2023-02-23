@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Loading from "../../Loading/Loading";
-import * as userAuth from "../../../services/userAuth";
+import LoadingButton from "../../components/LoadingButton/LoadingButton";
+import * as userAuth from "../../services/userAuth";
 
 const Regiseter = () => {
 	const navigate = useNavigate();
@@ -10,22 +10,30 @@ const Regiseter = () => {
 	const [passwordInput, setPasswordInput] = useState("");
 	const [firstNameInput, setFirstNameInput] = useState("");
 	const [lastNameInput, setLastNameInput] = useState("");
+	const [loading, steLoading] = useState(false);
 
 	const registerHandler = (e) => {
 		e.preventDefault();
-        setUsernameInput("");
+		setUsernameInput("");
 		setPasswordInput("");
-        setFirstNameInput("");
+		setFirstNameInput("");
 		setLastNameInput("");
 
-		userAuth.regiserUser(usernameInput,passwordInput, firstNameInput,lastNameInput)
-			.then(res => {
-				navigate('/login');
+		userAuth
+			.regiserUser(
+				usernameInput,
+				passwordInput,
+				firstNameInput,
+				lastNameInput
+			)
+			.then((res) => {
+				steLoading(true);
+				navigate("/login");
 			})
 			.catch((err) => {
 				console.log(err);
-			})
-	}
+			});
+	};
 
 	return (
 		<form className="register-form" method="POST">
@@ -88,10 +96,19 @@ const Regiseter = () => {
 					}}
 				/>
 			</div>
-
-			<button type="submit" className="btn btn-primary" onClick={(e) => {registerHandler(e)}}>
-				Submit
-			</button>
+			{loading ? (
+				<LoadingButton />
+			) : (
+				<button
+					type="submit"
+					className="btn btn-primary"
+					onClick={(e) => {
+						registerHandler(e);
+					}}
+				>
+					Submit
+				</button>
+			)}
 		</form>
 	);
 };

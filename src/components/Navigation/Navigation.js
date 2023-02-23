@@ -1,25 +1,26 @@
 import { Link, useNavigate } from "react-router-dom";
 
 const Navigation = ({ token, setToken }) => {
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const loginAndRegister = (
-		<>
-			<Link className="nav-link" to="/login">
+		<div className="login-register d-flex">
+			<Link className="nav-link active" to="/login">
 				Login
 			</Link>
-			<Link className="nav-link" to="/register">
+			<Link className="nav-link active" to="/register">
 				Register
 			</Link>
-		</>
+		</div>
 	);
 
 	const logout = (
 		<button
+			className="logout-btn"
 			onClick={() => {
 				setToken("");
-                localStorage.clear();
-                navigate('/login');
+				localStorage.clear();
+				navigate("/login");
 			}}
 		>
 			Logout
@@ -27,9 +28,9 @@ const Navigation = ({ token, setToken }) => {
 	);
 
 	return (
-		<nav className="navbar navbar-expand-lg navbar-light bg-light">
+		<nav className="navbar navbar-expand-lg navbar-light bg-light d-flex">
 			<div className="container-fluid">
-				<Link className="navbar-brand" to="/">
+				<Link className="navbar-brand" to="#">
 					Cars App
 				</Link>
 
@@ -45,11 +46,11 @@ const Navigation = ({ token, setToken }) => {
 						>
 							Home
 						</Link>
-						<Link className="nav-link" to="/cars">
+						<Link className="nav-link active" to="/cars">
 							Cars
 						</Link>
-						{token ? logout : loginAndRegister}
 					</div>
+				{token ? logout : loginAndRegister}
 				</div>
 			</div>
 		</nav>

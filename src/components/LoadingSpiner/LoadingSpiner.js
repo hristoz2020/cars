@@ -1,6 +1,6 @@
-const Loading = () => {
+const LoadingSpiner = () => {
 	return (
-		<div className="d-flex justify-content-center loading-spiner">
+		<div className="d-flex justify-content-center">
 			<div className="spinner-border" role="status">
 				<span className="visually-hidden">Loading...</span>
 			</div>
@@ -8,4 +8,4 @@ const Loading = () => {
 	);
 };
 
-export default Loading;
+export default LoadingSpiner;
