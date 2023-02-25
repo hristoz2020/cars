@@ -49,6 +49,9 @@ const Navigation = ({ token, setToken }) => {
 						<Link className="nav-link active" to="/cars">
 							Cars
 						</Link>
+						<Link className="nav-link active" to="/add-car">
+							Add Car
+						</Link>
 					</div>
 				{token ? logout : loginAndRegister}
 				</div>

@@ -8,7 +8,7 @@ const Login = ({ setToken }) => {
 	const navigate = useNavigate();
 	const [usernameInput, setUsernameInput] = useState("");
 	const [passwordInput, setPasswordInput] = useState("");
-
+	
 	const [isLoading, setIsLoading] = useState(false);
 	const [isError, setIsError] = useState("");
 
