@@ -14,14 +14,14 @@ export const loginUser = async (username, password) => {
     return login;
 }
 
-export const regiserUser = async (username, password, firstName, lastName) => {
+export const regiserUser = async ({id, username, password, firstName, lastName}) => {
     let response = await fetch(`${baseUrl}/users/register`, {
         method: 'POST',
         headers: {
             'accept': '*/*',
             'content-type': 'application/json'
         },
-        body: JSON.stringify({ username, password, firstName, lastName })
+        body: JSON.stringify({ id, username, password, firstName, lastName })
     });
     
     let register = response.json();

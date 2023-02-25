@@ -4,13 +4,13 @@ import { useState } from "react";
 import LoadingButton from "../../components/LoadingButton/LoadingButton";
 import * as userAuth from "../../services/userAuth";
 
-const Login = ({ token, setToken }) => {
+const Login = ({ setToken }) => {
 	const navigate = useNavigate();
-	const [usernameInput, setUsernameInput] = useState("hristoz123");
-	const [passwordInput, setPasswordInput] = useState("123456");
+	const [usernameInput, setUsernameInput] = useState("");
+	const [passwordInput, setPasswordInput] = useState("");
 
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
+	const [isError, setIsError] = useState("");
 
 	const loginHandler = (e) => {
 		e.preventDefault();
@@ -25,9 +25,8 @@ const Login = ({ token, setToken }) => {
 				navigate("/");
 			})
 			.catch((err) => {
-				setError(err);
-				setLoading(false);
-				//console.log(err);
+				setIsError(err);
+				setIsLoading(false);
 			});
 	};
 
@@ -61,15 +60,17 @@ const Login = ({ token, setToken }) => {
 					}}
 				/>
 			</div>
-			{error ? <p className="invalid-input">Invalid Username or Password!</p> : ""}
-			{loading ? (
+			{isError && (
+				<p className="invalid-input">Invalid Username or Password!</p>
+			)}
+			{isLoading ? (
 				<LoadingButton />
 			) : (
 				<button
 					type="submit"
 					className="btn btn-primary"
 					onClick={(e) => {
-						setLoading(true);
+						setIsLoading(true);
 						loginHandler(e);
 					}}
 				>

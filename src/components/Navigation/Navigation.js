@@ -5,10 +5,10 @@ const Navigation = ({ token, setToken }) => {
 
 	const loginAndRegister = (
 		<div className="login-register d-flex">
-			<Link className="nav-link active" to="/login">
+			<Link className="nav-link active login-btn" to="/login">
 				Login
 			</Link>
-			<Link className="nav-link active" to="/register">
+			<Link className="nav-link active register-btn" to="/register">
 				Register
 			</Link>
 		</div>

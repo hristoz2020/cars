@@ -6,32 +6,29 @@ import * as userAuth from "../../services/userAuth";
 
 const Regiseter = () => {
 	const navigate = useNavigate();
-	const [usernameInput, setUsernameInput] = useState("");
-	const [passwordInput, setPasswordInput] = useState("");
-	const [firstNameInput, setFirstNameInput] = useState("");
-	const [lastNameInput, setLastNameInput] = useState("");
-	const [loading, steLoading] = useState(false);
+	const [registerData, setRegisterData] = useState({
+		id: '',
+		username: '',
+		password: '',
+		firstName: '',
+		lastName: ''
+	});
+	
+	const [isLoading, setIsLoading] = useState(false);
 
 	const registerHandler = (e) => {
 		e.preventDefault();
-		setUsernameInput("");
-		setPasswordInput("");
-		setFirstNameInput("");
-		setLastNameInput("");
 
 		userAuth
 			.regiserUser(
-				usernameInput,
-				passwordInput,
-				firstNameInput,
-				lastNameInput
+				registerData
 			)
 			.then((res) => {
-				steLoading(true);
-				navigate("/login");
+				setIsLoading(true);
+				navigate("/login")
 			})
 			.catch((err) => {
-				console.log(err);
+				console.log('this is err', err);
 			});
 	};
 
@@ -45,9 +42,12 @@ const Regiseter = () => {
 					type="text"
 					className="form-control"
 					id="usernameInput"
-					value={usernameInput}
+					value={registerData.username}
 					onChange={(e) => {
-						setUsernameInput(e.target.value);
+						setRegisterData({
+							...registerData,
+							username: e.target.value
+						});
 					}}
 				/>
 			</div>
@@ -60,9 +60,12 @@ const Regiseter = () => {
 					type="password"
 					className="form-control"
 					id="exampleInputPassword1"
-					value={passwordInput}
+					value={registerData.password}
 					onChange={(e) => {
-						setPasswordInput(e.target.value);
+						setRegisterData({
+							...registerData,
+							password: e.target.value
+						});
 					}}
 				/>
 			</div>
@@ -75,9 +78,12 @@ const Regiseter = () => {
 					type="text"
 					className="form-control"
 					id="firstName"
-					value={firstNameInput}
+					value={registerData.firstName}
 					onChange={(e) => {
-						setFirstNameInput(e.target.value);
+						setRegisterData({
+							...registerData,
+							firstName: e.target.value
+						});
 					}}
 				/>
 			</div>
@@ -90,13 +96,16 @@ const Regiseter = () => {
 					type="text"
 					className="form-control"
 					id="lastName"
-					value={lastNameInput}
+					value={registerData.lastName}
 					onChange={(e) => {
-						setLastNameInput(e.target.value);
+						setRegisterData({
+							...registerData,
+							lastName: e.target.value
+						});
 					}}
 				/>
 			</div>
-			{loading ? (
+			{isLoading ? (
 				<LoadingButton />
 			) : (
 				<button
