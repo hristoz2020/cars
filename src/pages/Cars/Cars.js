@@ -19,11 +19,13 @@ const Cars = () => {
 				setIsError(true);
 			});
 	}, []);
-	console.log(cars);
+
 	return (
 		<>
 			<h1>Cars Page!</h1>
+
 			{isError && <h1>Error!!!!</h1>}
+
 			{isLoading ? (
 				<LoadingSpiner />
 			) : (

@@ -4,7 +4,6 @@ import { Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation";
 import Home from "./pages/Home/Home";
 import Cars from "./pages/Cars/Cars";
-import AddCar from "./pages/AddCar/AddCar";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 
@@ -20,7 +19,6 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/cars" element={<Cars />} />
-                <Route path="/add-car" element={<AddCar />} />
                 <Route path="/login" element={<Login setToken={setToken} />} />
                 <Route path="/register" element={<Register />} />
             </Routes>

@@ -4,7 +4,7 @@ const Navigation = ({ token, setToken }) => {
 	const navigate = useNavigate();
 
 	const loginAndRegister = (
-		<div className="login-register d-flex">
+		<div className="login-register d-flex justify-content-end">
 			<Link className="nav-link active login-btn" to="/login">
 				Login
 			</Link>
@@ -16,7 +16,7 @@ const Navigation = ({ token, setToken }) => {
 
 	const logout = (
 		<button
-			className="logout-btn"
+			className="logout-btn justify-content-end"
 			onClick={() => {
 				setToken("");
 				localStorage.clear();
@@ -29,7 +29,7 @@ const Navigation = ({ token, setToken }) => {
 
 	return (
 		<nav className="navbar navbar-expand-lg navbar-light bg-light d-flex">
-			<div className="container-fluid">
+			<div className="container-fluid d-flex">
 				<Link className="navbar-brand" to="#">
 					Cars App
 				</Link>
@@ -48,9 +48,6 @@ const Navigation = ({ token, setToken }) => {
 						</Link>
 						<Link className="nav-link active" to="/cars">
 							Cars
-						</Link>
-						<Link className="nav-link active" to="/add-car">
-							Add Car
 						</Link>
 					</div>
 				{token ? logout : loginAndRegister}
