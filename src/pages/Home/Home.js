@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import MaterialReactTable from "material-react-table";
 import {
 	Box,
@@ -8,177 +8,27 @@ import {
 	DialogContent,
 	DialogTitle,
 	IconButton,
-	MenuItem,
 	Stack,
 	TextField,
 	Tooltip,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-const data = [
-	{
-		id: "3141412412",
-		make: "BMW",
-		model: "330",
-		year: "2005",
-		enginType: "DIESEL",
-		gearBox: "MANUAL",
-		condition: "NEW",
-		horsePower: 150,
-		color: "Black",
-		price: 10000,
-		city: "Sofia",
-		mileage: 159492,
-	},
-	{
-		id: "31fdwf1412412",
-		make: "AUDI",
-		model: "A6",
-		year: "2005",
-		enginType: "DIESEL",
-		gearBox: "MANUAL",
-		condition: "NEW",
-		horsePower: 150,
-		color: "White",
-		price: 12000,
-		city: "Sofia",
-		mileage: 98120,
-	},
-	{
-		id: "3141s412",
-		make: "BMW",
-		model: "320",
-		year: "2005",
-		enginType: "DIESEL",
-		gearBox: "MANUAL",
-		condition: "NEW",
-		horsePower: 150,
-		color: "Black",
-		price: 10000,
-		city: "Sofia",
-		mileage: 159492,
-	},
-	{
-		id: "3141412v12",
-		make: "BMW",
-		model: "330",
-		year: "2005",
-		enginType: "DIESEL",
-		gearBox: "MANUAL",
-		condition: "NEW",
-		horsePower: 150,
-		color: "Black",
-		price: 10000,
-		city: "Sofia",
-		mileage: 159492,
-	},
-	{
-		id: "314e12412",
-		make: "BMW",
-		model: "330",
-		year: "2005",
-		enginType: "DIESEL",
-		gearBox: "MANUAL",
-		condition: "NEW",
-		horsePower: 150,
-		color: "Black",
-		price: 10000,
-		city: "Sofia",
-		mileage: 159492,
-	},
-	{
-		id: "314141h12",
-		make: "BMW",
-		model: "330",
-		year: "2005",
-		enginType: "DIESEL",
-		gearBox: "MANUAL",
-		condition: "NEW",
-		horsePower: 150,
-		color: "Black",
-		price: 10000,
-		city: "Sofia",
-		mileage: 159492,
-	},
-	{
-		id: "31s412412",
-		make: "BMW",
-		model: "330",
-		year: "2005",
-		enginType: "DIESEL",
-		gearBox: "MANUAL",
-		condition: "NEW",
-		horsePower: 150,
-		color: "Black",
-		price: 10000,
-		city: "Sofia",
-		mileage: 159492,
-	},
-	{
-		id: "31414f412",
-		make: "BMW",
-		model: "330",
-		year: "2005",
-		enginType: "DIESEL",
-		gearBox: "MANUAL",
-		condition: "NEW",
-		horsePower: 150,
-		color: "Black",
-		price: 10000,
-		city: "Sofia",
-		mileage: 159492,
-	},
-	{
-		id: "314141241s",
-		make: "BMW",
-		model: "330",
-		year: "2005",
-		enginType: "DIESEL",
-		gearBox: "MANUAL",
-		condition: "NEW",
-		horsePower: 150,
-		color: "Black",
-		price: 10000,
-		city: "Sofia",
-		mileage: 159492,
-	},
-	{
-		id: "31414d412",
-		make: "BMW",
-		model: "330",
-		year: "2005",
-		enginType: "DIESEL",
-		gearBox: "MANUAL",
-		condition: "NEW",
-		horsePower: 150,
-		color: "Black",
-		price: 10000,
-		city: "Sofia",
-		mileage: 159492,
-	},
-];
+import { getAllCars } from "../../services/carsAuth";
 
-const states = [
-	"Alabama",
-	"Alaska",
-	"Arizona",
-	"Arkansas",
-	"California",
-	"Colorado",
-	"Connecticut",
-	"Delaware",
-	"Florida",
-	"Georgia",
-	"Hawaii",
-	"Idaho",
-	"Illinois",
-	"Indiana",
-];
 
 const Home = () => {
 	const [createModalOpen, setCreateModalOpen] = useState(false);
-	const [tableData, setTableData] = useState(() => data);
+	const [tableData, setTableData] = useState([]);
 	const [validationErrors, setValidationErrors] = useState({});
-
+	
+	useEffect(() => {
+		getAllCars()
+		.then((res) => {
+			setTableData(res);
+		})
+		.catch((err) => console.log(err));
+	}, []);
+	console.log(tableData);
 	const handleCreateNewRow = (values) => {
 		tableData.push(values);
 		setTableData([...tableData]);
@@ -220,69 +70,57 @@ const Home = () => {
 			{
 				accessorKey: "make",
 				header: "Make",
-				size: 100,
+				size: 50,
 			},
 			{
 				accessorKey: "model",
 				header: "Model",
-				size: 140,
+				size: 50,
 			},
 			{
 				accessorKey: "year",
 				header: "Year",
-				size: 140,
+				size: 50,
 			},
 			{
-				accessorKey: "enginType",
-				header: "Engin Type",
-				size: 80,
+				accessorKey: "engineType",
+				header: "Engine Type",
+				size: 50,
 			},
 			{
 				accessorKey: "gearBox",
 				header: "Gear Box",
-				size: 80,
+				size: 50,
 			},
 			{
 				accessorKey: "condition",
 				header: "Condition",
-				size: 80,
+				size: 50,
 			},
 			{
 				accessorKey: "horsePower",
 				header: "Horse Power",
-				size: 80,
+				size: 50,
 			},
 			{
 				accessorKey: "color",
 				header: "Color",
-				size: 80,
+				size: 50,
 			},
 			{
 				accessorKey: "price",
 				header: "Price",
-				size: 80,
+				size: 50,
 			},
 			{
 				accessorKey: "city",
 				header: "City",
-				size: 80,
+				size: 50,
 			},
 			{
 				accessorKey: "mileage",
 				header: "Mileage",
-				size: 80,
-			},
-			{
-				accessorKey: "state",
-				header: "State",
-				muiTableBodyCellEditTextFieldProps: {
-					select: true, //change to select for a dropdown
-					children: states.map((state) => (
-						<MenuItem key={state} value={state}>
-							{state}
-						</MenuItem>
-					)),
-				},
+				size: 50,
 			},
 		],
 		[]
@@ -335,7 +173,7 @@ const Home = () => {
 					</Button>
 				)}
 			/>
-			<CreateNewAccountModal
+			<CreateNewCarModal
 				columns={columns}
 				open={createModalOpen}
 				onClose={() => setCreateModalOpen(false)}
@@ -346,7 +184,7 @@ const Home = () => {
 };
 
 //example of creating a mui dialog modal for creating new rows
-export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
+export const CreateNewCarModal = ({ open, columns, onClose, onSubmit }) => {
 	const [values, setValues] = useState(() =>
 		columns.reduce((acc, column) => {
 			acc[column.accessorKey ?? ""] = "";
