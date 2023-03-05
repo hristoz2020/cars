@@ -2,34 +2,39 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import LoadingButton from "../../components/LoadingButton/LoadingButton";
-import * as userAuth from "../../services/userAuth";
+import { registerUser } from "../../services/userAuth";
 
 const Regiseter = () => {
 	const navigate = useNavigate();
+	const [isError, setIsError] = useState(false);
 	const [registerData, setRegisterData] = useState({
-		id: '',
-		username: '',
-		password: '',
-		firstName: '',
-		lastName: ''
+		username: "",
+		password: "",
+		firstName: "",
+		lastName: "",
 	});
-	
 	const [isLoading, setIsLoading] = useState(false);
 
 	const registerHandler = (e) => {
 		e.preventDefault();
+		setRegisterData({
+			username: "",
+			password: "",
+			firstName: "",
+			lastName: "",
+		});
+		setIsError(false);
 
-		userAuth
-			.regiserUser(
-				registerData
-			)
+		registerUser(registerData)
 			.then((res) => {
 				setIsLoading(true);
-				navigate("/login")
 			})
 			.catch((err) => {
-				console.log('this is err', err);
-			});
+				setIsError(err);
+			})
+			// .finally(() => {
+			// 	navigate("/login");
+			// });
 	};
 
 	return (
@@ -46,7 +51,7 @@ const Regiseter = () => {
 					onChange={(e) => {
 						setRegisterData({
 							...registerData,
-							username: e.target.value
+							username: e.target.value,
 						});
 					}}
 				/>
@@ -64,7 +69,7 @@ const Regiseter = () => {
 					onChange={(e) => {
 						setRegisterData({
 							...registerData,
-							password: e.target.value
+							password: e.target.value,
 						});
 					}}
 				/>
@@ -82,7 +87,7 @@ const Regiseter = () => {
 					onChange={(e) => {
 						setRegisterData({
 							...registerData,
-							firstName: e.target.value
+							firstName: e.target.value,
 						});
 					}}
 				/>
@@ -100,11 +105,14 @@ const Regiseter = () => {
 					onChange={(e) => {
 						setRegisterData({
 							...registerData,
-							lastName: e.target.value
+							lastName: e.target.value,
 						});
 					}}
 				/>
 			</div>
+			{isError && (
+				<p className="invalid-input">Invalid Registration!</p>
+			)}
 			{isLoading ? (
 				<LoadingButton />
 			) : (

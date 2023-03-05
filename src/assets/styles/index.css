@@ -43,7 +43,8 @@
 .home-page-welcome {
     position: absolute;
     top: 100px;
-    left: 33%;}
+    left: 33%;
+}
 
 .home-page-img {
     width: 100%;
@@ -55,4 +56,10 @@
     padding: 10px;
     border: 1px solid black;
     border-radius: 12px;
+}
+
+.MuiPaper-root {
+    width: 90%;
+    margin: 10px auto;
+    border: 2px solid black;
 }

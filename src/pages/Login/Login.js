@@ -6,8 +6,8 @@ import * as userAuth from "../../services/userAuth";
 
 const Login = ({ setToken }) => {
 	const navigate = useNavigate();
-	const [usernameInput, setUsernameInput] = useState("");
-	const [passwordInput, setPasswordInput] = useState("");
+	const [usernameInput, setUsernameInput] = useState("hristoz");
+	const [passwordInput, setPasswordInput] = useState("123456");
 	
 	const [isLoading, setIsLoading] = useState(false);
 	const [isError, setIsError] = useState("");
@@ -22,6 +22,7 @@ const Login = ({ setToken }) => {
 			.then((res) => {
 				setToken(res.jwtToken);
 				localStorage.setItem("token", res.jwtToken);
+				localStorage.setItem("userId", res.user.id);
 				navigate("/");
 			})
 			.catch((err) => {

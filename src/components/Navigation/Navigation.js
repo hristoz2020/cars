@@ -28,14 +28,11 @@ const Navigation = ({ token, setToken }) => {
 	);
 
 	return (
-		<nav className="navbar navbar-expand-lg navbar-light bg-light d-flex">
-			<div className="container-fluid d-flex">
-				<Link className="navbar-brand" to="#">
-					Cars App
-				</Link>
+		<nav className="navbar navbar-expand-lg navbar-light bg-light">
+			<div className="container-fluid">
 
 				<div
-					className="collapse navbar-collapse"
+					className="collapse navbar-collapse d-flex"
 					id="navbarNavAltMarkup"
 				>
 					<div className="navbar-nav">

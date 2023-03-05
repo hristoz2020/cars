@@ -15,20 +15,19 @@ import {
 import { Delete, Edit } from "@mui/icons-material";
 import { getAllCars } from "../../services/carsAuth";
 
-
-const Home = () => {
+const Home = ({ token }) => {
 	const [createModalOpen, setCreateModalOpen] = useState(false);
 	const [tableData, setTableData] = useState([]);
 	const [validationErrors, setValidationErrors] = useState({});
-	
+
 	useEffect(() => {
 		getAllCars()
-		.then((res) => {
-			setTableData(res);
-		})
-		.catch((err) => console.log(err));
+			.then((res) => {
+				setTableData(res);
+			})
+			.catch((err) => console.log(err));
 	}, []);
-	console.log(tableData);
+
 	const handleCreateNewRow = (values) => {
 		tableData.push(values);
 		setTableData([...tableData]);
@@ -52,7 +51,7 @@ const Home = () => {
 			if (
 				alert(
 					`Are you sure you want to delete ${row.getValue(
-						"firstName"
+						"make"
 					)}`
 				)
 			) {
@@ -122,64 +121,72 @@ const Home = () => {
 				header: "Mileage",
 				size: 50,
 			},
+			{
+				accessorKey: "extras",
+				header: "Extras",
+				size: 50,
+			},
 		],
 		[]
 	);
 
 	return (
-		<>
-			<MaterialReactTable
-				displayColumnDefOptions={{
-					"mrt-row-actions": {
-						muiTableHeadCellProps: {
-							align: "center",
+		token && (
+			<>
+				<MaterialReactTable
+					className="cars-table"
+					displayColumnDefOptions={{
+						"mrt-row-actions": {
+							muiTableHeadCellProps: {
+								align: "center",
+							},
+							size: 120,
 						},
-						size: 120,
-					},
-				}}
-				columns={columns}
-				data={tableData}
-				editingMode="modal" //default
-				enableColumnOrdering
-				enableEditing
-				onEditingRowSave={handleSaveRowEdits}
-				onEditingRowCancel={handleCancelRowEdits}
-				renderRowActions={({ row, table }) => (
-					<Box sx={{ display: "flex", gap: "1rem" }}>
-						<Tooltip arrow placement="left" title="Edit">
-							<IconButton
-								onClick={() => table.setEditingRow(row)}
-							>
-								<Edit />
-							</IconButton>
-						</Tooltip>
-						<Tooltip arrow placement="right" title="Delete">
-							<IconButton
-								color="error"
-								onClick={() => handleDeleteRow(row)}
-							>
-								<Delete />
-							</IconButton>
-						</Tooltip>
-					</Box>
-				)}
-				renderTopToolbarCustomActions={() => (
-					<Button
-						color="secondary"
-						onClick={() => setCreateModalOpen(true)}
-						variant="contained"
-					>
-						Add New Car
-					</Button>
-				)}
-			/>
-			<CreateNewCarModal
-				columns={columns}
-				open={createModalOpen}
-				onClose={() => setCreateModalOpen(false)}
-				onSubmit={handleCreateNewRow}
-			/>
-		</>
+					}}
+					columns={columns}
+					data={tableData}
+					editingMode="modal" //default
+					enableColumnOrdering
+					enableEditing
+					onEditingRowSave={handleSaveRowEdits}
+					onEditingRowCancel={handleCancelRowEdits}
+					renderRowActions={({ row, table }) => (
+						<Box sx={{ display: "flex", gap: "1rem" }}>
+							<Tooltip arrow placement="left" title="Edit">
+								<IconButton
+									onClick={() => table.setEditingRow(row)}
+								>
+									<Edit />
+								</IconButton>
+							</Tooltip>
+							<Tooltip arrow placement="right" title="Delete">
+								<IconButton
+									color="error"
+									onClick={() => handleDeleteRow(row)}
+								>
+									<Delete />
+								</IconButton>
+							</Tooltip>
+						</Box>
+					)}
+					renderTopToolbarCustomActions={() => (
+						<Button
+							color="secondary"
+							onClick={() => setCreateModalOpen(true)}
+							variant="contained"
+						>
+							Add New Car
+						</Button>
+					)}
+				/>
+				<CreateNewCarModal
+					columns={columns}
+					open={createModalOpen}
+					onClose={() => setCreateModalOpen(false)}
+					onSubmit={handleCreateNewRow}
+				/>
+			</>
+		)
 	);
 };
 

@@ -17,7 +17,7 @@ function App() {
             <Navigation token={token} setToken={setToken} />
 
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Home token={token} />} />
                 <Route path="/cars" element={<Cars />} />
                 <Route path="/login" element={<Login setToken={setToken} />} />
                 <Route path="/register" element={<Register />} />
