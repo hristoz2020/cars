@@ -11,6 +11,7 @@ const Cars = () => {
 
 	useEffect(() => {
 		getAllCars()
+			.then((res) => res.json())
 			.then((res) => {
 				setIsLoading(false);
 				setCars(res);

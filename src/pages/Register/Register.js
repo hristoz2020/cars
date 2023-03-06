@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import LoadingButton from "../../components/LoadingButton/LoadingButton";
 import { registerUser } from "../../services/userAuth";
@@ -28,17 +28,16 @@ const Regiseter = () => {
 		registerUser(registerData)
 			.then((res) => {
 				setIsLoading(true);
+				navigate("/login");
 			})
 			.catch((err) => {
 				setIsError(err);
-			})
-			// .finally(() => {
-			// 	navigate("/login");
-			// });
+			});
 	};
 
 	return (
 		<form className="register-form" method="POST">
+			<h1 className="text-center">Register</h1>
 			<div className="mb-3">
 				<label htmlFor="exampleInputEmail1" className="form-label">
 					Username
@@ -110,21 +109,24 @@ const Regiseter = () => {
 					}}
 				/>
 			</div>
-			{isError && (
-				<p className="invalid-input">Invalid Registration!</p>
-			)}
+			{isError && <p className="invalid-input">Invalid Registration!</p>}
 			{isLoading ? (
 				<LoadingButton />
 			) : (
-				<button
-					type="submit"
-					className="btn btn-primary"
-					onClick={(e) => {
-						registerHandler(e);
-					}}
-				>
-					Submit
-				</button>
+				<div className="d-flex align-items-center justify-content-sm-between">
+					<button
+						type="submit"
+						className="btn btn-primary"
+						onClick={(e) => {
+							registerHandler(e);
+						}}
+					>
+						Submit
+					</button>
+					<Link to="/login" className="navigate-to-login">
+						Go to Login
+					</Link>
+				</div>
 			)}
 		</form>
 	);

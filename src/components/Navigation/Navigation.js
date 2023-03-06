@@ -43,9 +43,6 @@ const Navigation = ({ token, setToken }) => {
 						>
 							Home
 						</Link>
-						<Link className="nav-link active" to="/cars">
-							Cars
-						</Link>
 					</div>
 				{token ? logout : loginAndRegister}
 				</div>

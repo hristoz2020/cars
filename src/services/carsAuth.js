@@ -3,9 +3,7 @@ const baseUrl = "http://161.35.202.170:8080";
 export const getAllCars = async () => {
 	let response = await fetch(`${baseUrl}/cars/all`);
 
-	let allCars = response.json();
-
-	return allCars;
+	return response;
 };
 
 export const addCar = async (carInfo) => {
@@ -15,9 +13,7 @@ export const addCar = async (carInfo) => {
 		body: JSON.stringify(carInfo),
 	});
 
-	let addCar = response.json();
-
-	return addCar;
+	return response;
 };
 
 export const deleteCar = async (id, userId) => {
@@ -27,7 +23,5 @@ export const deleteCar = async (id, userId) => {
 		body: JSON.stringify(),
 	});
 
-	let deleteCar = response.json();
-
-	return deleteCar;
+	return response;
 };
