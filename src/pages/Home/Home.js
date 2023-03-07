@@ -13,7 +13,7 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-import { getAllCars, addCar } from "../../services/carsAuth";
+import { getAllCars, addCar, deleteCar } from "../../services/carsAuth";
 
 function Home({ token }) {
 	const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -42,19 +42,25 @@ function Home({ token }) {
 		setValidationErrors({});
 	};
 
-	const handleDeleteRow = useCallback(
-		(row) => {
-			if (
-				alert(`Are you sure you want to delete ${row.getValue("make")}`)
-			) {
-				return;
-			}
-			//send api delete request here, then refetch or update local table data for re-render
-			tableData.splice(row.index, 1);
-			setTableData([...tableData]);
-		},
-		[tableData]
-	);
+	const handleDeleteRow = useCallback((row, token) => {
+		let carId = row.original.id;
+		let userId = row.original.user.id;
+
+		if (
+			!window.confirm(
+				`Are you sure you want to delete ${row.getValue(
+					"make"
+				)}-${row.getValue("model")}-${row.getValue("year")}`
+			)
+		) {
+			return;
+		}
+
+		deleteCar(carId, userId, token)
+			.then((res) => res.json())
+			.then((res) => console.log(res))
+			.catch((err) => console.log(err));
+	}, []);
 
 	const columns = useMemo(
 		() => [
@@ -153,7 +159,7 @@ function Home({ token }) {
 						<Tooltip arrow placement="right" title="Delete">
 							<IconButton
 								color="error"
-								onClick={() => handleDeleteRow(row)}
+								onClick={() => handleDeleteRow(row, token)}
 							>
 								<Delete />
 							</IconButton>
@@ -204,7 +210,7 @@ export const CreateNewCarModal = ({
 		addCar(values, user, token)
 			.then((res) => res.json())
 			.then((res) => {
-				setTableData(res)
+				setTableData(res);
 			})
 			.catch((err) => console.log(err));
 

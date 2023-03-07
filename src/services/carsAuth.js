@@ -13,7 +13,7 @@ export const addCar = async (carInfo, user, token) => {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
-			"Authentication": `Bearer ${token}`,
+			Authentication: `Bearer ${token}`,
 		},
 		body: JSON.stringify(carInfo),
 	});
@@ -21,11 +21,14 @@ export const addCar = async (carInfo, user, token) => {
 	return response;
 };
 
-export const deleteCar = async (id, userId) => {
+export const deleteCar = async (id, userId, token) => {
 	let response = await fetch(`${baseUrl}/cars/${id}/${userId}`, {
 		method: "DELETE",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(),
+		headers: {
+			"Content-Type": "application/json",
+			Authentication: `Bearer ${token}`,
+		},
+		
 	});
 
 	return response;
