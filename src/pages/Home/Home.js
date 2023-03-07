@@ -13,9 +13,9 @@ import {
 	Tooltip,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-import { getAllCars } from "../../services/carsAuth";
+import { getAllCars, addCar } from "../../services/carsAuth";
 
-function Home() {
+function Home({ token }) {
 	const [createModalOpen, setCreateModalOpen] = useState(false);
 	const [tableData, setTableData] = useState([]);
 	const [validationErrors, setValidationErrors] = useState({});
@@ -28,11 +28,6 @@ function Home() {
 			})
 			.catch((err) => console.log(err));
 	}, []);
-
-	const handleCreateNewRow = (values) => {
-		tableData.push(values);
-		setTableData([...tableData]);
-	};
 
 	const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
 		if (!Object.keys(validationErrors).length) {
@@ -134,7 +129,7 @@ function Home() {
 				displayColumnDefOptions={{
 					"mrt-row-actions": {
 						muiTableHeadCellProps: {
-							align: "center",
+							align: "left",
 						},
 						size: 120,
 					},
@@ -179,26 +174,40 @@ function Home() {
 				columns={columns}
 				open={createModalOpen}
 				onClose={() => setCreateModalOpen(false)}
-				onSubmit={handleCreateNewRow}
+				token={token}
+				setTableData={setTableData}
 			/>
 		</>
 	);
 }
 
 //example of creating a mui dialog modal for creating new rows
-export const CreateNewCarModal = ({ open, columns, onClose, onSubmit }) => {
-
+export const CreateNewCarModal = ({
+	open,
+	columns,
+	onClose,
+	token,
+	setTableData,
+}) => {
+	let user = JSON.parse(localStorage.getItem("userData"));
 	const [values, setValues] = useState(() =>
 		columns.reduce((acc, column) => {
 			acc[column.accessorKey ?? ""] = "";
-			// console.log("acc", acc);
+
 			return acc;
 		}, {})
 	);
 
 	const handleSubmit = () => {
 		//put your validation logic here
-		onSubmit(values);
+
+		addCar(values, user, token)
+			.then((res) => res.json())
+			.then((res) => {
+				setTableData(res)
+			})
+			.catch((err) => console.log(err));
+
 		onClose();
 	};
 
@@ -237,7 +246,7 @@ export const CreateNewCarModal = ({ open, columns, onClose, onSubmit }) => {
 					onClick={handleSubmit}
 					variant="contained"
 				>
-					Add New Car
+					Add New Car+
 				</Button>
 			</DialogActions>
 		</Dialog>

@@ -6,10 +6,15 @@ export const getAllCars = async () => {
 	return response;
 };
 
-export const addCar = async (carInfo) => {
+export const addCar = async (carInfo, user, token) => {
+	carInfo.user = user;
+
 	let response = await fetch(`${baseUrl}/cars`, {
 		method: "POST",
-		headers: { "Content-Type": "application/json" },
+		headers: {
+			"Content-Type": "application/json",
+			"Authentication": `Bearer ${token}`,
+		},
 		body: JSON.stringify(carInfo),
 	});
 
