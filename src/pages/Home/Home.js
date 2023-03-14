@@ -11,29 +11,47 @@ import {
 	Stack,
 	TextField,
 	Tooltip,
+	CircularProgress,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-import { getAllCars, addCar, deleteCar } from "../../services/carsAuth";
+import {
+	getAllCars,
+	addCar,
+	deleteCar,
+	editCar,
+} from "../../services/carsAuth";
 
 function Home({ token }) {
 	const [createModalOpen, setCreateModalOpen] = useState(false);
 	const [tableData, setTableData] = useState([]);
 	const [validationErrors, setValidationErrors] = useState({});
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		getAllCars()
 			.then((res) => res.json())
 			.then((res) => {
 				setTableData(res);
+				setIsLoading(false);
 			})
 			.catch((err) => console.log(err));
 	}, []);
 
 	const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
+		let user = JSON.parse(localStorage.getItem("userData"));
+		let token = localStorage.getItem("token");
+
 		if (!Object.keys(validationErrors).length) {
 			tableData[row.index] = values;
+			console.log("user",user);
+			console.log("this is values",values);
+			console.log("this is token",token);
+
 			//send/receive api updates here, then refetch or update local table data for re-render
-			setTableData([...tableData]);
+			editCar(user, values, token)
+				.then((res) => console.log(res))
+				.catch((err) => console.log(err));
+
 			exitEditingMode(); //required to exit editing mode and close modal
 		}
 	};
@@ -57,7 +75,6 @@ function Home({ token }) {
 		}
 
 		deleteCar(carId, userId, token)
-			.then((res) => res.json())
 			.then((res) => console.log(res))
 			.catch((err) => console.log(err));
 	}, []);
@@ -166,15 +183,19 @@ function Home({ token }) {
 						</Tooltip>
 					</Box>
 				)}
-				renderTopToolbarCustomActions={() => (
-					<Button
-						color="secondary"
-						onClick={() => setCreateModalOpen(true)}
-						variant="contained"
-					>
-						Add New Car
-					</Button>
-				)}
+				renderTopToolbarCustomActions={() =>
+					isLoading ? (
+						<CircularProgress />
+					) : (
+						<Button
+							color="secondary"
+							onClick={() => setCreateModalOpen(true)}
+							variant="contained"
+						>
+							Add New Car
+						</Button>
+					)
+				}
 			/>
 			<CreateNewCarModal
 				columns={columns}
@@ -182,6 +203,7 @@ function Home({ token }) {
 				onClose={() => setCreateModalOpen(false)}
 				token={token}
 				setTableData={setTableData}
+				setIsLoading={setIsLoading}
 			/>
 		</>
 	);
@@ -194,6 +216,7 @@ export const CreateNewCarModal = ({
 	onClose,
 	token,
 	setTableData,
+	setIsLoading,
 }) => {
 	let user = JSON.parse(localStorage.getItem("userData"));
 	const [values, setValues] = useState(() =>
@@ -206,14 +229,11 @@ export const CreateNewCarModal = ({
 
 	const handleSubmit = () => {
 		//put your validation logic here
-
 		addCar(values, user, token)
-			.then((res) => res.json())
 			.then((res) => {
-				setTableData(res);
+				setIsLoading(false);
 			})
-			.catch((err) => console.log(err));
-
+			.catch((err) => console.log("this is err", err));
 		onClose();
 	};
 
