@@ -35,7 +35,6 @@ export const deleteCar = async (id, userId, token) => {
 
 export const editCar = async (user, carInfo, token) => {
 	carInfo.user = user;
-	
 	let response = await fetch(`${baseUrl}/cars/${user.id}`, {
 		method: "PUT",
 		headers: {

@@ -25,16 +25,17 @@ function Home({ token }) {
 	const [createModalOpen, setCreateModalOpen] = useState(false);
 	const [tableData, setTableData] = useState([]);
 	const [validationErrors, setValidationErrors] = useState({});
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
+	const [isError, setIsError] = useState(false);
 
 	useEffect(() => {
 		getAllCars()
 			.then((res) => res.json())
 			.then((res) => {
+				setIsLoading(true);
 				setTableData(res);
-				setIsLoading(false);
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => setIsError(true));
 	}, []);
 
 	const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
@@ -43,14 +44,13 @@ function Home({ token }) {
 
 		if (!Object.keys(validationErrors).length) {
 			tableData[row.index] = values;
-			console.log("user",user);
-			console.log("this is values",values);
-			console.log("this is token",token);
-
+			values.id = row.original.id;
 			//send/receive api updates here, then refetch or update local table data for re-render
 			editCar(user, values, token)
-				.then((res) => console.log(res))
-				.catch((err) => console.log(err));
+				.then((res) => {
+					setIsLoading(true);
+				})
+				.catch((err) => setIsError(true));
 
 			exitEditingMode(); //required to exit editing mode and close modal
 		}
@@ -75,8 +75,8 @@ function Home({ token }) {
 		}
 
 		deleteCar(carId, userId, token)
-			.then((res) => console.log(res))
-			.catch((err) => console.log(err));
+			.then((res) => setIsLoading(true))
+			.catch((err) => setIsError(true));
 	}, []);
 
 	const columns = useMemo(
@@ -147,6 +147,7 @@ function Home({ token }) {
 
 	return (
 		<>
+			{isError && <h1>Error!!</h1>}
 			<MaterialReactTable
 				className="cars-table"
 				displayColumnDefOptions={{
@@ -185,8 +186,6 @@ function Home({ token }) {
 				)}
 				renderTopToolbarCustomActions={() =>
 					isLoading ? (
-						<CircularProgress />
-					) : (
 						<Button
 							color="secondary"
 							onClick={() => setCreateModalOpen(true)}
@@ -194,6 +193,8 @@ function Home({ token }) {
 						>
 							Add New Car
 						</Button>
+					) : (
+						<CircularProgress />
 					)
 				}
 			/>
@@ -202,7 +203,6 @@ function Home({ token }) {
 				open={createModalOpen}
 				onClose={() => setCreateModalOpen(false)}
 				token={token}
-				setTableData={setTableData}
 				setIsLoading={setIsLoading}
 			/>
 		</>
@@ -215,8 +215,8 @@ export const CreateNewCarModal = ({
 	columns,
 	onClose,
 	token,
-	setTableData,
 	setIsLoading,
+	setIsError,
 }) => {
 	let user = JSON.parse(localStorage.getItem("userData"));
 	const [values, setValues] = useState(() =>
@@ -231,9 +231,9 @@ export const CreateNewCarModal = ({
 		//put your validation logic here
 		addCar(values, user, token)
 			.then((res) => {
-				setIsLoading(false);
+				setIsLoading(true);
 			})
-			.catch((err) => console.log("this is err", err));
+			.catch((err) => setIsError(true));
 		onClose();
 	};
 
