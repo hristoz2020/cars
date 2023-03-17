@@ -29,14 +29,19 @@ function Home({ token }) {
 	const [isError, setIsError] = useState(false);
 
 	useEffect(() => {
+		console.log("get all cars ");
 		getAllCars()
 			.then((res) => res.json())
 			.then((res) => {
 				setIsLoading(true);
 				setTableData(res);
+				setIsLoading(false);
 			})
-			.catch((err) => setIsError(true));
-	}, []);
+			.catch((err) => {
+				setIsLoading(false);
+				setIsError(true);
+			});
+	}, [isLoading]);
 
 	const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
 		let user = JSON.parse(localStorage.getItem("userData"));
@@ -48,6 +53,7 @@ function Home({ token }) {
 			//send/receive api updates here, then refetch or update local table data for re-render
 			editCar(user, values, token)
 				.then((res) => {
+					console.log("edit car");
 					setIsLoading(true);
 				})
 				.catch((err) => setIsError(true));
@@ -186,6 +192,8 @@ function Home({ token }) {
 				)}
 				renderTopToolbarCustomActions={() =>
 					isLoading ? (
+						<CircularProgress />
+					) : (
 						<Button
 							color="secondary"
 							onClick={() => setCreateModalOpen(true)}
@@ -193,8 +201,6 @@ function Home({ token }) {
 						>
 							Add New Car
 						</Button>
-					) : (
-						<CircularProgress />
 					)
 				}
 			/>
