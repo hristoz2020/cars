@@ -25,11 +25,10 @@ function Home({ token }) {
 	const [createModalOpen, setCreateModalOpen] = useState(false);
 	const [tableData, setTableData] = useState([]);
 	const [validationErrors, setValidationErrors] = useState({});
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [isError, setIsError] = useState(false);
 
 	useEffect(() => {
-		console.log("get all cars ");
 		getAllCars()
 			.then((res) => res.json())
 			.then((res) => {
@@ -53,7 +52,6 @@ function Home({ token }) {
 			//send/receive api updates here, then refetch or update local table data for re-render
 			editCar(user, values, token)
 				.then((res) => {
-					console.log("edit car");
 					setIsLoading(true);
 				})
 				.catch((err) => setIsError(true));
@@ -171,25 +169,28 @@ function Home({ token }) {
 				enableEditing
 				onEditingRowSave={handleSaveRowEdits}
 				onEditingRowCancel={handleCancelRowEdits}
-				renderRowActions={({ row, table }) => (
-					<Box sx={{ display: "flex", gap: "1rem" }}>
-						<Tooltip arrow placement="left" title="Edit">
-							<IconButton
-								onClick={() => table.setEditingRow(row)}
-							>
-								<Edit />
-							</IconButton>
-						</Tooltip>
-						<Tooltip arrow placement="right" title="Delete">
-							<IconButton
-								color="error"
-								onClick={() => handleDeleteRow(row, token)}
-							>
-								<Delete />
-							</IconButton>
-						</Tooltip>
-					</Box>
-				)}
+				renderRowActions={({ row, table }) =>
+					row.original.user.id ===
+						JSON.parse(localStorage.getItem("userData")).id && (
+						<Box sx={{ display: "flex", gap: "1rem" }}>
+							<Tooltip arrow placement="left" title="Edit">
+								<IconButton
+									onClick={() => table.setEditingRow(row)}
+								>
+									<Edit />
+								</IconButton>
+							</Tooltip>
+							<Tooltip arrow placement="right" title="Delete">
+								<IconButton
+									color="error"
+									onClick={() => handleDeleteRow(row, token)}
+								>
+									<Delete />
+								</IconButton>
+							</Tooltip>
+						</Box>
+					)
+				}
 				renderTopToolbarCustomActions={() =>
 					isLoading ? (
 						<CircularProgress />

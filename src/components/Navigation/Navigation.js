@@ -2,9 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Navigation = ({ token, setToken }) => {
 	const navigate = useNavigate();
+	const userName = JSON.parse(localStorage.getItem("userData")).firstName;
 
 	const loginAndRegister = (
-		<div className="login-register d-flex justify-content-end">
+		<div className="login-register d-flex">
 			<Link className="nav-link active login-btn" to="/login">
 				Login
 			</Link>
@@ -16,7 +17,7 @@ const Navigation = ({ token, setToken }) => {
 
 	const logout = (
 		<button
-			className="logout-btn justify-content-end"
+			className="logout-btn nav-link active"
 			onClick={() => {
 				setToken("");
 				localStorage.clear();
@@ -28,24 +29,15 @@ const Navigation = ({ token, setToken }) => {
 	);
 
 	return (
-		<nav className="navbar navbar-expand-lg navbar-light bg-light">
-			<div className="container-fluid">
-
-				<div
-					className="collapse navbar-collapse d-flex"
-					id="navbarNavAltMarkup"
-				>
-					<div className="navbar-nav">
-						<Link
-							className="nav-link active"
-							aria-current="page"
-							to="/"
-						>
-							Home
-						</Link>
-					</div>
+		<nav className="navbar d-flex align-items-center">
+			<div className="d-flex">
+				<Link className="nav-link active" aria-current="page" to="/">
+					Home
+				</Link>
 				{token ? logout : loginAndRegister}
-				</div>
+			</div>
+			<div className="d-flex">
+				<span>{`Welcome: ${userName}`}</span>
 			</div>
 		</nav>
 	);

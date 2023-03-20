@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+body {
+    background-color: gray;
+}
+
 .login-form,
 .register-form {
     width: 40%;
@@ -18,8 +22,9 @@
 }
 
 .logout-btn {
+    padding: 0px 5px;
     border: none;
-    background-color: white;
+    background-color: azure;
 }
 
 .invalid-input {
@@ -28,4 +33,11 @@
 
 .MuiPaper-root {
     border: 2px solid black;
+    margin: 100px auto;
+}
+
+.navbar {
+    padding: 10px;
+    border: 1px solid black;
+    background-color: azure;
 }
