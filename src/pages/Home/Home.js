@@ -12,6 +12,8 @@ import {
 	TextField,
 	Tooltip,
 	CircularProgress,
+	MenuItem,
+	MenuList,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import {
@@ -27,6 +29,22 @@ function Home({ token }) {
 	const [validationErrors, setValidationErrors] = useState({});
 	const [isLoading, setIsLoading] = useState(true);
 	const [isError, setIsError] = useState(false);
+
+	const typesEngine = [
+		{ value: "DIESEL", label: "DIESEL" },
+		{ value: "GASOLINE", label: "GASOLINE" },
+		{ value: "HYBRID", label: "HYBRID" },
+		{ value: "ELECTRIC", label: "ELECTRIC" },
+	];
+	const typesGearBox = [
+		{ value: "MANUAL", label: "MANUAL" },
+		{ value: "AUTOMATIC", label: "AUTOMATIC" },
+	];
+	const typesCondition = [
+		{ value: "NEW", label: "NEW" },
+		{ value: "USED", label: "USED" },
+		{ value: "PARTS", label: "PARTS" },
+	];
 
 	useEffect(() => {
 		getAllCars()
@@ -104,16 +122,42 @@ function Home({ token }) {
 				accessorKey: "engineType",
 				header: "Engine Type",
 				size: 50,
+				muiTableBodyCellEditTextFieldProps: {
+					select: true, //change to select for a dropdown
+					children: ["DIESEL", "GASOLINE", "HYBRID", "ELECTRIC"].map(
+						(typeEngine) => (
+							<MenuItem key={typeEngine} value={typeEngine}>
+								{typeEngine}
+							</MenuItem>
+						)
+					),
+				},
 			},
 			{
 				accessorKey: "gearBox",
 				header: "Gear Box",
 				size: 50,
+				muiTableBodyCellEditTextFieldProps: {
+					select: true, //change to select for a dropdown
+					children: ["MANUAL", "AUTOMATIC"].map((typeEngine) => (
+						<MenuItem key={typeEngine} value={typeEngine}>
+							{typeEngine}
+						</MenuItem>
+					)),
+				},
 			},
 			{
 				accessorKey: "condition",
 				header: "Condition",
 				size: 50,
+				muiTableBodyCellEditTextFieldProps: {
+					select: true, //change to select for a dropdown
+					children: ["NEW", "USED", "PARTS"].map((typeEngine) => (
+						<MenuItem key={typeEngine} value={typeEngine}>
+							{typeEngine}
+						</MenuItem>
+					)),
+				},
 			},
 			{
 				accessorKey: "horsePower",
@@ -153,7 +197,6 @@ function Home({ token }) {
 		<>
 			{isError && <h1>Error!!</h1>}
 			<MaterialReactTable
-				className="cars-table"
 				displayColumnDefOptions={{
 					"mrt-row-actions": {
 						muiTableHeadCellProps: {
@@ -196,7 +239,7 @@ function Home({ token }) {
 						<CircularProgress />
 					) : (
 						<Button
-							color="secondary"
+							color="info"
 							onClick={() => setCreateModalOpen(true)}
 							variant="contained"
 						>
@@ -224,6 +267,7 @@ export const CreateNewCarModal = ({
 	token,
 	setIsLoading,
 	setIsError,
+	typesEngine,
 }) => {
 	let user = JSON.parse(localStorage.getItem("userData"));
 	const [values, setValues] = useState(() =>
@@ -274,12 +318,8 @@ export const CreateNewCarModal = ({
 			</DialogContent>
 			<DialogActions sx={{ p: "1.25rem" }}>
 				<Button onClick={onClose}>Cancel</Button>
-				<Button
-					color="secondary"
-					onClick={handleSubmit}
-					variant="contained"
-				>
-					Add New Car+
+				<Button color="info" onClick={handleSubmit} variant="contained">
+					Add New Car
 				</Button>
 			</DialogActions>
 		</Dialog>

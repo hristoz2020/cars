@@ -5,6 +5,7 @@ import Navigation from "./components/Navigation/Navigation";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+import Footer from "./components/Footer/Footer";
 
 function App() {
 	const [token, setToken] = useState(localStorage.getItem("token") ?? null);
@@ -28,6 +29,7 @@ function App() {
 					element={<h1 className="text-center">Page not found!</h1>}
 				/>
 			</Routes>
+			<Footer />
 		</div>
 	);
 }

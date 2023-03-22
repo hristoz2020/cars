@@ -17,7 +17,7 @@ const Navigation = ({ token, setToken }) => {
 
 	const logout = (
 		<button
-			className="logout-btn nav-link active"
+			className="logout-btn nav-link active bg-dark text-white-50"
 			onClick={() => {
 				setToken("");
 				localStorage.clear();
@@ -29,7 +29,7 @@ const Navigation = ({ token, setToken }) => {
 	);
 
 	return (
-		<nav className="navbar d-flex align-items-center">
+		<nav className="navbar d-flex align-items-center bg-dark text-white-50">
 			<div className="d-flex">
 				<Link className="nav-link active" aria-current="page" to="/">
 					Home
@@ -37,7 +37,7 @@ const Navigation = ({ token, setToken }) => {
 				{token ? logout : loginAndRegister}
 			</div>
 			<div className="d-flex">
-				<span>{`Welcome: ${userName}`}</span>
+				<span>{`Welcome ${userName}!`}</span>
 			</div>
 		</nav>
 	);
