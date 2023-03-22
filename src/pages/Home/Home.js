@@ -3,25 +3,23 @@ import MaterialReactTable from "material-react-table";
 import {
 	Box,
 	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
 	IconButton,
-	Stack,
-	TextField,
 	Tooltip,
 	CircularProgress,
 	MenuItem,
-	MenuList,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import {
 	getAllCars,
-	addCar,
 	deleteCar,
 	editCar,
 } from "../../services/carsAuth";
+import {
+	typesCondition,
+	typesEngine,
+	typesGearBox,
+} from "../../constants/constants";
+import CreateCarModal from "../../components/CreateCarModal/CreateCarModal";
 
 function Home({ token }) {
 	const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -29,22 +27,6 @@ function Home({ token }) {
 	const [validationErrors, setValidationErrors] = useState({});
 	const [isLoading, setIsLoading] = useState(true);
 	const [isError, setIsError] = useState(false);
-
-	const typesEngine = [
-		{ value: "DIESEL", label: "DIESEL" },
-		{ value: "GASOLINE", label: "GASOLINE" },
-		{ value: "HYBRID", label: "HYBRID" },
-		{ value: "ELECTRIC", label: "ELECTRIC" },
-	];
-	const typesGearBox = [
-		{ value: "MANUAL", label: "MANUAL" },
-		{ value: "AUTOMATIC", label: "AUTOMATIC" },
-	];
-	const typesCondition = [
-		{ value: "NEW", label: "NEW" },
-		{ value: "USED", label: "USED" },
-		{ value: "PARTS", label: "PARTS" },
-	];
 
 	useEffect(() => {
 		getAllCars()
@@ -124,13 +106,11 @@ function Home({ token }) {
 				size: 50,
 				muiTableBodyCellEditTextFieldProps: {
 					select: true, //change to select for a dropdown
-					children: ["DIESEL", "GASOLINE", "HYBRID", "ELECTRIC"].map(
-						(typeEngine) => (
-							<MenuItem key={typeEngine} value={typeEngine}>
-								{typeEngine}
-							</MenuItem>
-						)
-					),
+					children: typesEngine.map((typesEngine) => (
+						<MenuItem key={typesEngine} value={typesEngine}>
+							{typesEngine}
+						</MenuItem>
+					)),
 				},
 			},
 			{
@@ -139,9 +119,9 @@ function Home({ token }) {
 				size: 50,
 				muiTableBodyCellEditTextFieldProps: {
 					select: true, //change to select for a dropdown
-					children: ["MANUAL", "AUTOMATIC"].map((typeEngine) => (
-						<MenuItem key={typeEngine} value={typeEngine}>
-							{typeEngine}
+					children: typesGearBox.map((typesGearBox) => (
+						<MenuItem key={typesGearBox} value={typesGearBox}>
+							{typesGearBox}
 						</MenuItem>
 					)),
 				},
@@ -152,9 +132,9 @@ function Home({ token }) {
 				size: 50,
 				muiTableBodyCellEditTextFieldProps: {
 					select: true, //change to select for a dropdown
-					children: ["NEW", "USED", "PARTS"].map((typeEngine) => (
-						<MenuItem key={typeEngine} value={typeEngine}>
-							{typeEngine}
+					children: typesCondition.map((typesCondition) => (
+						<MenuItem key={typesCondition} value={typesCondition}>
+							{typesCondition}
 						</MenuItem>
 					)),
 				},
@@ -243,12 +223,12 @@ function Home({ token }) {
 							onClick={() => setCreateModalOpen(true)}
 							variant="contained"
 						>
-							Add New Car
+							Add Car
 						</Button>
 					)
 				}
 			/>
-			<CreateNewCarModal
+			<CreateCarModal
 				columns={columns}
 				open={createModalOpen}
 				onClose={() => setCreateModalOpen(false)}
@@ -259,71 +239,6 @@ function Home({ token }) {
 	);
 }
 
-//example of creating a mui dialog modal for creating new rows
-export const CreateNewCarModal = ({
-	open,
-	columns,
-	onClose,
-	token,
-	setIsLoading,
-	setIsError,
-	typesEngine,
-}) => {
-	let user = JSON.parse(localStorage.getItem("userData"));
-	const [values, setValues] = useState(() =>
-		columns.reduce((acc, column) => {
-			acc[column.accessorKey ?? ""] = "";
 
-			return acc;
-		}, {})
-	);
-
-	const handleSubmit = () => {
-		//put your validation logic here
-		addCar(values, user, token)
-			.then((res) => {
-				setIsLoading(true);
-			})
-			.catch((err) => setIsError(true));
-		onClose();
-	};
-
-	return (
-		<Dialog open={open}>
-			<DialogTitle textAlign="center">Add New Car</DialogTitle>
-			<DialogContent>
-				<form onSubmit={(e) => e.preventDefault()}>
-					<Stack
-						sx={{
-							width: "100%",
-							minWidth: { xs: "300px", sm: "360px", md: "400px" },
-							gap: "1.5rem",
-						}}
-					>
-						{columns.map((column) => (
-							<TextField
-								key={column.accessorKey}
-								label={column.header}
-								name={column.accessorKey}
-								onChange={(e) =>
-									setValues({
-										...values,
-										[e.target.name]: e.target.value,
-									})
-								}
-							/>
-						))}
-					</Stack>
-				</form>
-			</DialogContent>
-			<DialogActions sx={{ p: "1.25rem" }}>
-				<Button onClick={onClose}>Cancel</Button>
-				<Button color="info" onClick={handleSubmit} variant="contained">
-					Add New Car
-				</Button>
-			</DialogActions>
-		</Dialog>
-	);
-};
 
 export default Home;
