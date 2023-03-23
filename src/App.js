@@ -6,6 +6,7 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Footer from "./components/Footer/Footer";
+import PageNotFound from "./pages/PageNotFound/PageNotFound";
 
 function App() {
 	const [token, setToken] = useState(localStorage.getItem("token") ?? null);
@@ -24,10 +25,7 @@ function App() {
 				<Route path="/home" element={<Home token={token} />} />
 				<Route path="/login" element={<Login setToken={setToken} />} />
 				<Route path="/register" element={<Register />} />
-				<Route
-					path="*"
-					element={<h1 className="text-center">Page not found!</h1>}
-				/>
+				<Route path="*" element={<PageNotFound setToken={setToken} />} />
 			</Routes>
 			<Footer />
 		</div>

@@ -3,10 +3,6 @@
     padding: 0;
 }
 
-body {
-    background-color: gray;
-}
-
 .cars-table {
     color: red;
 }
@@ -53,4 +49,9 @@ body {
 
 .MuiPaper-elevation2 {
     margin: 100px 50px;
+}
+
+.back-btn {
+    text-decoration: none;
+    color: white;
 }
