@@ -239,6 +239,4 @@ function Home({ token }) {
 	);
 }
 
-
-
 export default Home;
