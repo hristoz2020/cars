@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 
 const PageNotFound = ({setToken}) => {
-    setToken('');
+    setToken(null);
     localStorage.clear();
 
 	return (

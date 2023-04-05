@@ -19,7 +19,7 @@ const Navigation = ({ token, setToken }) => {
 		<button
 			className="logout-btn nav-link active bg-dark text-white-50"
 			onClick={() => {
-				setToken("");
+				setToken(null);
 				localStorage.clear();
 				navigate("/login");
 			}}
