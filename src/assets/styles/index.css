@@ -12,7 +12,8 @@
     width: 40%;
     background-color: white ;
     border: 1px solid black;
-    margin: 100px auto;
+    margin: 0 auto;
+    margin-top: 100px;
     padding: 20px;
     border-radius: 12px;
 }
@@ -41,17 +42,18 @@
 }
 
 .page-footer {
-    position: absolute;
-    bottom: 0;
     width: 100%;
-    margin-top: 100px;
 }
 
 .MuiPaper-elevation2 {
-    margin: 100px 50px;
+    margin: 50px 50px 0px 50px;
 }
 
 .back-btn {
     text-decoration: none;
     color: white;
+}
+
+.min-height {
+    min-height:1050px
 }

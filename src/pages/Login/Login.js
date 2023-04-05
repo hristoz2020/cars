@@ -16,8 +16,7 @@ const Login = ({ setToken }) => {
 
 	const loginHandler = (e) => {
 		e.preventDefault();
-		if (
-			loginData.username.length === 0) {
+		if (loginData.username.length === 0) {
 			setIsError(true);
 			setIsLoading(false);
 			return;
@@ -27,14 +26,13 @@ const Login = ({ setToken }) => {
 			return;
 		}
 
-
 		userAuth
 			.loginUser(loginData)
 			.then((res) => {
 				setToken(res.jwtToken);
 				localStorage.setItem("token", res.jwtToken);
 				localStorage.setItem("userData", JSON.stringify(res.user));
-				navigate("/");
+				navigate("/cars");
 			})
 			.catch((err) => {
 				setIsError(err);
@@ -43,65 +41,69 @@ const Login = ({ setToken }) => {
 	};
 
 	return (
-		<form className="login-form" method="POST">
-			<h1 className="text-center">Login</h1>
-			<div className="mb-3">
-				<label htmlFor="exampleInput" className="form-label">
-					Username
-				</label>
-				<input
-					type="text"
-					className="form-control"
-					id="usernameLoginInput"
-					value={loginData.username}
-					onChange={(e) => {
-						setLoginData({
-							...loginData,
-							username: e.target.value,
-						});
-					}}
-				/>
-			</div>
-			<div className="mb-3">
-				<label htmlFor="passwordInput" className="form-label">
-					Password
-				</label>
-				<input
-					type="password"
-					className="form-control"
-					id="passwordLoginInput"
-					value={loginData.password}
-					onChange={(e) => {
-						setLoginData({
-							...loginData,
-							password: e.target.value,
-						});
-					}}
-				/>
-			</div>
-			{isError && (
-				<p className="invalid-input">Invalid Username or Password!</p>
-			)}
-			{isLoading ? (
-				<LoadingButton />
-			) : (
-				<div className="d-flex align-items-center justify-content-sm-between">
-					<button
-						type="submit"
-						className="btn btn-primary"
-						onClick={(e) => {
-							setIsLoading(true);
-							loginHandler(e);
+		<div className="min-height">
+			<form className="login-form" method="POST">
+				<h1 className="text-center">Login</h1>
+				<div className="mb-3">
+					<label htmlFor="exampleInput" className="form-label">
+						Username
+					</label>
+					<input
+						type="text"
+						className="form-control"
+						id="usernameLoginInput"
+						value={loginData.username}
+						onChange={(e) => {
+							setLoginData({
+								...loginData,
+								username: e.target.value,
+							});
 						}}
-					>
-						Submit
-					</button>
-					<Link to="/register" className="navigate-to-login">
-						Go to Regiseter
-					</Link>
+					/>
 				</div>
-			)}
-		</form>
+				<div className="mb-3">
+					<label htmlFor="passwordInput" className="form-label">
+						Password
+					</label>
+					<input
+						type="password"
+						className="form-control"
+						id="passwordLoginInput"
+						value={loginData.password}
+						onChange={(e) => {
+							setLoginData({
+								...loginData,
+								password: e.target.value,
+							});
+						}}
+					/>
+				</div>
+				{isError && (
+					<p className="invalid-input">
+						Invalid Username or Password!
+					</p>
+				)}
+				{isLoading ? (
+					<LoadingButton />
+				) : (
+					<div className="d-flex align-items-center justify-content-sm-between">
+						<button
+							type="submit"
+							className="btn btn-primary"
+							onClick={(e) => {
+								setIsLoading(true);
+								loginHandler(e);
+							}}
+						>
+							Submit
+						</button>
+						<Link to="/register" className="navigate-to-login">
+							Go to Regiseter
+						</Link>
+					</div>
+				)}
+			</form>
+		</div>
 	);
 };
 

@@ -21,7 +21,7 @@ function App() {
 			{token && <Navigation token={token} setToken={setToken} />}
 
 			<Routes>
-				<Route path="/" element={isLoggedIn} />
+				<Route path="/cars" element={isLoggedIn} />
 				<Route path="/home" element={<Home token={token} />} />
 				<Route path="/login" element={<Login setToken={setToken} />} />
 				<Route path="/register" element={<Register />} />

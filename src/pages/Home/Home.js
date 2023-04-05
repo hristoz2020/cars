@@ -174,7 +174,7 @@ function Home({ token }) {
 	);
 
 	return (
-		<>
+		<div className="min-height">
 			{isError && <h1>Error!!</h1>}
 			<MaterialReactTable
 				displayColumnDefOptions={{
@@ -235,7 +235,7 @@ function Home({ token }) {
 				token={token}
 				setIsLoading={setIsLoading}
 			/>
-		</>
+		</div>
 	);
 }
 

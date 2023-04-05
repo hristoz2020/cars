@@ -31,7 +31,7 @@ const Navigation = ({ token, setToken }) => {
 	return (
 		<nav className="navbar d-flex align-items-center bg-dark text-white-50">
 			<div className="d-flex">
-				<Link className="nav-link active" aria-current="page" to="/">
+				<Link className="nav-link active" aria-current="page" to="/home">
 					Home
 				</Link>
 				{token ? logout : loginAndRegister}
