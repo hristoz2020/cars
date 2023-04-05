@@ -1,4 +1,4 @@
-const baseUrl = "http://161.35.202.170:8080";
+import { baseUrl } from "../constants/constants";
 
 export const loginUser = async (loginData) => {
 	let response = await fetch(`${baseUrl}/users/login`, {
@@ -9,7 +9,7 @@ export const loginUser = async (loginData) => {
 		body: JSON.stringify(loginData),
 	});
 	let login = response.json();
-	
+
 	return login;
 };
 

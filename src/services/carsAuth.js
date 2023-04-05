@@ -1,4 +1,4 @@
-const baseUrl = "http://161.35.202.170:8080";
+import { baseUrl } from "../constants/constants";
 
 export const getAllCars = async () => {
 	let response = await fetch(`${baseUrl}/cars/all`);
