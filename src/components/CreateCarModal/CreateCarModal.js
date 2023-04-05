@@ -20,10 +20,10 @@ const CreateCarModal = ({
 	open,
 	columns,
 	onClose,
-	token,
 	setIsLoading,
 	setIsError,
 }) => {
+	const token = localStorage.getItem("token");
 	let user = JSON.parse(localStorage.getItem("userData"));
 	const [values, setValues] = useState(() =>
 		columns.reduce((acc, column) => {

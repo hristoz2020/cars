@@ -21,12 +21,14 @@ import {
 } from "../../constants/constants";
 import CreateCarModal from "../../components/CreateCarModal/CreateCarModal";
 
-function Home({ token }) {
+function Home() {
 	const [createModalOpen, setCreateModalOpen] = useState(false);
 	const [tableData, setTableData] = useState([]);
 	const [validationErrors, setValidationErrors] = useState({});
 	const [isLoading, setIsLoading] = useState(true);
 	const [isError, setIsError] = useState(false);
+	const user = JSON.parse(localStorage.getItem("userData"));
+	const token = localStorage.getItem("token");
 
 	useEffect(() => {
 		getAllCars()
@@ -43,8 +45,6 @@ function Home({ token }) {
 	}, [isLoading]);
 
 	const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
-		let user = JSON.parse(localStorage.getItem("userData"));
-		let token = localStorage.getItem("token");
 
 		if (!Object.keys(validationErrors).length) {
 			tableData[row.index] = values;
@@ -65,9 +65,6 @@ function Home({ token }) {
 	};
 
 	const handleDeleteRow = useCallback((row, token) => {
-		let carId = row.original.id;
-		let userId = row.original.user.id;
-
 		if (
 			!window.confirm(
 				`Are you sure you want to delete ${row.getValue(
@@ -78,7 +75,7 @@ function Home({ token }) {
 			return;
 		}
 
-		deleteCar(carId, userId, token)
+		deleteCar(row.original.id, row.original.user.id, token)
 			.then((res) => setIsLoading(true))
 			.catch((err) => setIsError(true));
 	}, []);
@@ -232,8 +229,8 @@ function Home({ token }) {
 				columns={columns}
 				open={createModalOpen}
 				onClose={() => setCreateModalOpen(false)}
-				token={token}
 				setIsLoading={setIsLoading}
+				setIsError={setIsError}
 			/>
 		</div>
 	);

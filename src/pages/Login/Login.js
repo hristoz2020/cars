@@ -13,6 +13,23 @@ const Login = ({ setToken }) => {
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [isError, setIsError] = useState("");
+	const buttonAndLinkToRegister = (
+		<div className="d-flex align-items-center justify-content-sm-between">
+			<button
+				type="submit"
+				className="btn btn-primary"
+				onClick={(e) => {
+					setIsLoading(true);
+					loginHandler(e);
+				}}
+			>
+				Submit
+			</button>
+			<Link to="/register" className="navigate-to-login">
+				Go to Regiseter
+			</Link>
+		</div>
+	);
 
 	const loginHandler = (e) => {
 		e.preventDefault();
@@ -45,7 +62,7 @@ const Login = ({ setToken }) => {
 			<form className="login-form" method="POST">
 				<h1 className="text-center">Login</h1>
 				<div className="mb-3">
-					<label htmlFor="exampleInput" className="form-label">
+					<label htmlFor="usernameLoginInput" className="form-label">
 						Username
 					</label>
 					<input
@@ -62,7 +79,7 @@ const Login = ({ setToken }) => {
 					/>
 				</div>
 				<div className="mb-3">
-					<label htmlFor="passwordInput" className="form-label">
+					<label htmlFor="passwordLoginInput" className="form-label">
 						Password
 					</label>
 					<input
@@ -83,25 +100,7 @@ const Login = ({ setToken }) => {
 						Invalid Username or Password!
 					</p>
 				)}
-				{isLoading ? (
-					<LoadingButton />
-				) : (
-					<div className="d-flex align-items-center justify-content-sm-between">
-						<button
-							type="submit"
-							className="btn btn-primary"
-							onClick={(e) => {
-								setIsLoading(true);
-								loginHandler(e);
-							}}
-						>
-							Submit
-						</button>
-						<Link to="/register" className="navigate-to-login">
-							Go to Regiseter
-						</Link>
-					</div>
-				)}
+				{isLoading ? <LoadingButton /> : buttonAndLinkToRegister}
 			</form>
 		</div>
 	);

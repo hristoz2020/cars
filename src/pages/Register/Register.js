@@ -14,6 +14,22 @@ const Regiseter = () => {
 		lastName: "",
 	});
 	const [isLoading, setIsLoading] = useState(false);
+	const buttonAndLinkToLogin = (
+		<div className="d-flex align-items-center justify-content-sm-between">
+			<button
+				type="submit"
+				className="btn btn-primary"
+				onClick={(e) => {
+					registerHandler(e);
+				}}
+			>
+				Submit
+			</button>
+			<Link to="/login" className="navigate-to-login">
+				Go to Login
+			</Link>
+		</div>
+	);
 
 	const registerHandler = (e) => {
 		e.preventDefault();
@@ -40,7 +56,7 @@ const Regiseter = () => {
 			<form className="register-form" method="POST">
 				<h1 className="text-center">Register</h1>
 				<div className="mb-3">
-					<label htmlFor="exampleInputEmail1" className="form-label">
+					<label htmlFor="usernameInput" className="form-label">
 						Username
 					</label>
 					<input
@@ -64,7 +80,7 @@ const Regiseter = () => {
 					<input
 						type="password"
 						className="form-control"
-						id="exampleInputPassword1"
+						id="passwordInput"
 						value={registerData.password}
 						onChange={(e) => {
 							setRegisterData({
@@ -82,7 +98,7 @@ const Regiseter = () => {
 					<input
 						type="text"
 						className="form-control"
-						id="firstName"
+						id="firstNameInput"
 						value={registerData.firstName}
 						onChange={(e) => {
 							setRegisterData({
@@ -100,7 +116,7 @@ const Regiseter = () => {
 					<input
 						type="text"
 						className="form-control"
-						id="lastName"
+						id="lastNameInput"
 						value={registerData.lastName}
 						onChange={(e) => {
 							setRegisterData({
@@ -113,24 +129,7 @@ const Regiseter = () => {
 				{isError && (
 					<p className="invalid-input">Invalid Registration!</p>
 				)}
-				{isLoading ? (
-					<LoadingButton />
-				) : (
-					<div className="d-flex align-items-center justify-content-sm-between">
-						<button
-							type="submit"
-							className="btn btn-primary"
-							onClick={(e) => {
-								registerHandler(e);
-							}}
-						>
-							Submit
-						</button>
-						<Link to="/login" className="navigate-to-login">
-							Go to Login
-						</Link>
-					</div>
-				)}
+				{isLoading ? <LoadingButton /> : buttonAndLinkToLogin}
 			</form>
 		</div>
 	);

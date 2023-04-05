@@ -22,7 +22,7 @@ function App() {
 
 			<Routes>
 				<Route path="/cars" element={isLoggedIn} />
-				<Route path="/home" element={<Home token={token} />} />
+				<Route path="/home" element={<Home />} />
 				<Route path="/login" element={<Login setToken={setToken} />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="*" element={<PageNotFound setToken={setToken} />} />
